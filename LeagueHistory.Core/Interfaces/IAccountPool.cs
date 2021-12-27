@@ -2,6 +2,6 @@
 {
     public interface IAccountPool
     {
-        LeagueAccount GetAccount(Region region);
+        AccessToken GetAccount(Region region);
     }
 }

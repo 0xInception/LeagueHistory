@@ -10,7 +10,7 @@ namespace LeagueHistory.Tests
         [Test]
         public async Task Authenticate()
         {
-            var auth = new LeagueAuthenticator();
+            var auth = new LeagueAuthenticator(new RandomProvider());
             var account = new LeagueAccount(new LeagueCredentials("username", "password"));
             var result = await auth.Authenticate(account);
             Assert.AreEqual(Result.Invalid,result);

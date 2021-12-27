@@ -11,18 +11,18 @@ namespace LeagueHistory.Core.Implementations
     // Why did i decide to switch to httpclient :facepalm:
     public class LeagueAuthenticator : ILeagueAuthenticator
     {
+
         private const string
             AUTH_URL =
                 "https://auth.riotgames.com/api/v1/authorization"; // Let's use the new api in case they deprecate the old one.
 
         private const string USERINFO = "https://auth.riotgames.com/userinfo";
-        private readonly Random _random;
         public HttpClient AuthenticatorClient { get; set; }
-
-        public LeagueAuthenticator()
+        public IRandomProvider RandomProvider { get; }
+        public LeagueAuthenticator(IRandomProvider randomProvider)
         {
+            RandomProvider = randomProvider;
             AuthenticatorClient = new HttpClient();
-            _random = new Random();
         }
 
         public async Task<Result> Authenticate(LeagueAccount account)
@@ -59,16 +59,11 @@ namespace LeagueHistory.Core.Implementations
                 var stringBuilder = new StringBuilder(byte.MaxValue); // Won't be longer than 0xFF
                 stringBuilder.Append(
                     "{\"acr_values\": \"\",\"claims\": \"\",\"client_id\": \"riot-client\",\"nonce\":\"");
-                stringBuilder.Append(RandomString(22));
+                stringBuilder.Append(RandomProvider.RandomString(22));
                 stringBuilder.Append(
                     "\",\"code_challenge\": \"\",\"code_challenge_method\": \"\",\"redirect_uri\": \"http://localhost/redirect\",\"response_type\": \"token id_token\",\"scope\": \"openid link ban lol_region\"}");
                 return stringBuilder.ToString();
 
-                string RandomString(int length) // TODO: Random provider
-                    =>
-                        new(Enumerable
-                            .Repeat("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_", length)
-                            .Select(s => s[_random.Next(s.Length)]).ToArray());
             }
 
             string GeneratePart2()
@@ -89,22 +84,6 @@ namespace LeagueHistory.Core.Implementations
             Refresh(LeagueAccount account) // TODO: Find a way of refreshing the token. LOOK /userinfo
         {
             throw new NotImplementedException();
-        }
-
-        public async Task<Result> ResolveRegion(LeagueAccount account) // TODO: Decode id_token jwt for ease (completely remove this method)
-        {
-            var requestMessage = new HttpRequestMessage(HttpMethod.Get, USERINFO);
-            requestMessage.Headers.Add("Authorization",$"{account.AccessToken.token_type} {account.AccessToken.access_token}");
-            var result = await AuthenticatorClient.SendAsync(requestMessage);
-            if (!result.IsSuccessStatusCode)
-                return Result.Unknown;
-            var response = await result.Content.ReadAsStringAsync();
-            if (!response.Contains("original_platform_id"))
-                return Result.Unknown;
-            var parsed = JsonDocument.Parse(response);
-            var property = parsed.RootElement.GetProperty("original_platform_id").GetString();
-            account.Credentials.Region = Enum.Parse<Platform>(property).ToRegion();
-            return Result.Valid;
         }
     }
 }

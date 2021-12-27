@@ -25,6 +25,7 @@ namespace LeagueHistory
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IRandomProvider, RandomProvider>();
             services.AddSingleton<ILogger, ConsoleLogger>();
             services.AddSingleton<ISettingsProvider, SettingsProvider>();
             services.AddSingleton<ILeagueAuthenticator, LeagueAuthenticator>();

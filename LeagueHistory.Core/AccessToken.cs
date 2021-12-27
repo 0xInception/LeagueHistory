@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Linq;
+using System.Net;
+using System.Text;
 using System.Text.Json;
 
 namespace LeagueHistory.Core
@@ -11,6 +14,7 @@ namespace LeagueHistory.Core
         public string? session_state { get; set; }
         public string? id_token { get; set; }
         public string? scope { get; set; }
+        public Region Region { get; set; }
 
         public AccessToken(string? response)
         {
@@ -31,6 +35,16 @@ namespace LeagueHistory.Core
                         break;
                     case "id_token":
                         id_token = split[1];
+                        var payload = id_token.Split('.')[1];
+                        int padding = payload.Length % 4;
+                        if (padding > 0 )
+                        {
+                            payload += new string('=', 4 - padding);
+                        }
+                        var json2 = JsonDocument.Parse(Encoding.UTF8.GetString(Convert.FromBase64String(payload)));
+                        var regionString = json2.RootElement.GetProperty("lol_region").EnumerateArray().First();
+                        var pid = regionString.GetProperty("pid").GetString();
+                        Region = Enum.Parse<Platform>(pid, true).ToRegion();
                         break;
                     case "token_type":
                         token_type = split[1];

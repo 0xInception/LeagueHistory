@@ -28,9 +28,9 @@ namespace LeagueHistory.Core.Implementations
             Authenticate();
         }
 
-        public LeagueAccount GetAccount(Region region) // TODO: Figure out how to do the region stuff
+        public AccessToken GetAccount(Region region) // TODO: Figure out how to do the region stuff
         {
-            return ActiveAccounts.First(d => d.Credentials.Region == region);
+            return ActiveAccounts.First(d => d.AccessToken.Region == region).AccessToken;
         }
 
         private async void OnTimerOnElapsed(object x, ElapsedEventArgs y)
@@ -50,18 +50,6 @@ namespace LeagueHistory.Core.Implementations
                     {
                         Logger.Success(
                             $"Successfully authenticated account [{leagueAccount.Credentials.Username}:{leagueAccount.Credentials.Password}]");
-                        if (Authenticator.ResolveRegion(leagueAccount).Result == Result.Valid)
-                        {
-                            ActiveAccounts.Add(leagueAccount);
-                            Logger.Success(
-                                $"Successfully resolved region on account [{leagueAccount.Credentials.Username}:{leagueAccount.Credentials.Password}]");
-
-                        }
-                        else
-                        {
-                            Logger.Error(
-                                $"Failed to resolve region on account [{leagueAccount.Credentials.Username}:{leagueAccount.Credentials.Password}]");
-                        }
                     }
                     else
                     {
