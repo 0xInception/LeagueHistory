@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using LeagueHistory.Core.Architecture;
-using LeagueHistory.Core.Architecture.Interfaces;
-using LeagueHistory.Core.Architecture.JsonObjects;
+using LeagueHistory.Core;
+using LeagueHistory.Core.Interfaces;
+using LeagueHistory.Core.JsonObjects;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 

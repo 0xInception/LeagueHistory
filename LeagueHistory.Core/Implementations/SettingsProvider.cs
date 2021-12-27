@@ -1,8 +1,8 @@
 ﻿using System.IO;
 using System.Text.Json;
-using LeagueHistory.Core.Architecture.Interfaces;
+using LeagueHistory.Core.Interfaces;
 
-namespace LeagueHistory.Core.Architecture.Implementations
+namespace LeagueHistory.Core.Implementations
 {
    
 

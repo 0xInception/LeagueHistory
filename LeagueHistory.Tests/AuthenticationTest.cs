@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using LeagueHistory.Core;
-using LeagueHistory.Core.Architecture;
-using LeagueHistory.Core.Architecture.Implementations;
+using LeagueHistory.Core.Implementations;
 using NUnit.Framework;
 
 namespace LeagueHistory.Tests

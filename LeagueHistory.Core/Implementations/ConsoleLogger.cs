@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Drawing;
-using LeagueHistory.Core.Architecture.Interfaces;
+using LeagueHistory.Core.Interfaces;
 
-namespace LeagueHistory.Core.Architecture.Implementations
+namespace LeagueHistory.Core.Implementations
 {
     public class ConsoleLogger : ILogger
     {

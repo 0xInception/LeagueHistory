@@ -1,4 +1,4 @@
-﻿namespace LeagueHistory.Core.Architecture.JsonObjects
+﻿namespace LeagueHistory.Core.JsonObjects
 {
     public class LookupResponse
     {

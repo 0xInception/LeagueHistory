@@ -1,4 +1,4 @@
-﻿namespace LeagueHistory.Core.Architecture.Interfaces
+﻿namespace LeagueHistory.Core.Interfaces
 {
     public interface ISettingsProvider
     {

@@ -1,6 +1,6 @@
-﻿using LeagueHistory.Core.Architecture.JsonObjects;
+﻿using LeagueHistory.Core.JsonObjects;
 
-namespace LeagueHistory.Core.Architecture.Interfaces
+namespace LeagueHistory.Core.Interfaces
 {
     public interface ILeagueApi
     {

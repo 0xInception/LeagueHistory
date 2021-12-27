@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.Json;
 
-namespace LeagueHistory.Core.Architecture
+namespace LeagueHistory.Core
 {
     public class AccessToken
     {

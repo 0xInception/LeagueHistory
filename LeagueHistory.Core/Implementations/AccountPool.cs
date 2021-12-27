@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
 using System.Timers;
-using LeagueHistory.Core.Architecture;
-using LeagueHistory.Core.Architecture.Interfaces;
+using LeagueHistory.Core.Interfaces;
 
-namespace LeagueHistory.Core.Architecture.Implementations
+namespace LeagueHistory.Core.Implementations
 {
     
 

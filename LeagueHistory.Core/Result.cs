@@ -1,4 +1,4 @@
-﻿namespace LeagueHistory.Core.Architecture
+﻿namespace LeagueHistory.Core
 {
     public enum Result
     {

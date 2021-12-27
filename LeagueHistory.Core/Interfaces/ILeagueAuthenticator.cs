@@ -1,8 +1,7 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
-using LeagueHistory.Core.Architecture;
 
-namespace LeagueHistory.Core.Architecture.Interfaces
+namespace LeagueHistory.Core.Interfaces
 {
     public interface ILeagueAuthenticator
     {

@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace LeagueHistory.Core.Architecture
+namespace LeagueHistory.Core
 {
     public static class Extensions
     {

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Net.Http;
-using LeagueHistory.Core.Architecture.Interfaces;
-using LeagueHistory.Core.Architecture.JsonObjects;
+using LeagueHistory.Core.Interfaces;
+using LeagueHistory.Core.JsonObjects;
 
-namespace LeagueHistory.Core.Architecture.Implementations
+namespace LeagueHistory.Core.Implementations
 {
     
 
