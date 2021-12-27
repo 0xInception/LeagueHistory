@@ -28,9 +28,9 @@ namespace LeagueHistory.Core.Implementations
             Authenticate();
         }
 
-        public AccessToken GetAccount(Region region) // TODO: Figure out how to do the region stuff
+        public LeagueAccount GetAccount(Region region) // TODO: Figure out how to do the region stuff
         {
-            return ActiveAccounts.First(d => d.Credentials.Region == region).AccessToken;
+            return ActiveAccounts.First(d => d.Credentials.Region == region);
         }
 
         private async void OnTimerOnElapsed(object x, ElapsedEventArgs y)

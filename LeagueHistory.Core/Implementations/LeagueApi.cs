@@ -26,7 +26,7 @@ namespace LeagueHistory.Core.Implementations
         {
             var account = AccountPool.GetAccount(region);
             var requestMessage = new HttpRequestMessage(HttpMethod.Get, ConstructBlueCall(region,$"/summoner-ledge/v1/regions/{region.ToPlatform()}/summoners/name/{username}"));
-            requestMessage.Headers.Add("Authorization",$"{account.token_type} {account.access_token}"); // TODO: Apparently ledge is not using access_token anymore, but some other jwt token issued from https://session.gpsrv.pvp.net
+            requestMessage.Headers.Add("Authorization",$"{account.AccessToken.token_type} {account.AccessToken.access_token}"); // TODO: Apparently ledge is not using access_token anymore, but some other jwt token issued from https://session.gpsrv.pvp.net
             var response = await ApiClient.SendAsync(requestMessage);
             if (response.IsSuccessStatusCode)
             {
