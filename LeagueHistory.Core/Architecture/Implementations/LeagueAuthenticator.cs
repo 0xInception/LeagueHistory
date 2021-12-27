@@ -5,8 +5,9 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 using LeagueHistory.Core.Architecture;
+using LeagueHistory.Core.Architecture.Interfaces;
 
-namespace LeagueHistory.Core
+namespace LeagueHistory.Core.Architecture.Implementations
 {
     // Why did i decide to switch to httpclient :facepalm:
     public class LeagueAuthenticator : ILeagueAuthenticator

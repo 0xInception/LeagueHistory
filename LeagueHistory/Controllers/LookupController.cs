@@ -1,5 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using LeagueHistory.Core.Architecture;
+using LeagueHistory.Core.Architecture.Interfaces;
+using LeagueHistory.Core.Architecture.JsonObjects;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace LeagueHistory.Controllers
 {
@@ -18,7 +24,33 @@ namespace LeagueHistory.Controllers
         public IActionResult Lookup([FromQuery(Name = "Region")] string region,
             [FromQuery(Name = "summonerName")] string summonerName, [FromQuery(Name = "puuid")] string puuid)
         {
+            if (string.IsNullOrEmpty(region) && string.IsNullOrEmpty(summonerName) && string.IsNullOrEmpty(puuid))
+            {
+                return BadRequest("F");
+            }
+
+            var leagueApi = ServiceProvider.GetService<ILeagueApi>();
+            if (!string.IsNullOrEmpty(region) && !string.IsNullOrEmpty(summonerName))
+            {
+                // TODO: Make it so it preserves this response?
+                var summoner = leagueApi.Lookup(summonerName, Enum.Parse<Region>(region, true));
+                return Lookup(string.Empty, string.Empty, summoner.puuid);
+            }
+            else if (!string.IsNullOrEmpty(puuid))
+            {
+                var responses = GetResponses();
+                // TODO: Models
+            }
+
             return View();
+
+            IEnumerable<LookupResponse> GetResponses()
+            {
+                foreach (var r in Enum.GetValues<Region>())
+                {
+                    yield return leagueApi.LookupPuuid(puuid, r);
+                }
+            }
         }
     }
 }

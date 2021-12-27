@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using LeagueHistory.Core.Architecture;
 
-namespace LeagueHistory.Core
+namespace LeagueHistory.Core.Architecture.Interfaces
 {
     public interface ILeagueAuthenticator
     {
