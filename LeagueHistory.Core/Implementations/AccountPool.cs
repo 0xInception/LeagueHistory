@@ -16,7 +16,6 @@ namespace LeagueHistory.Core.Implementations
         public ILogger Logger { get; }
         public string[] Accounts { get; set; }
         public List<LeagueAccount> ActiveAccounts { get; set; } = new();
-        public bool FirstRun { get; set; } = true;
 
         public AccountPool(ILeagueAuthenticator authenticator, ILogger logger, ISettingsProvider settings)
         {
@@ -29,16 +28,14 @@ namespace LeagueHistory.Core.Implementations
             Authenticate();
         }
 
-        public AccessToken? GetAccount(Region region) // TODO: Figure out how to do the region stuff
+        public AccessToken? GetAccount(Region region)
         {
             var x = ActiveAccounts.FirstOrDefault(d => d.AccessToken!.Region == region);
             return x?.AccessToken;
         }
 
-        private async void OnTimerOnElapsed(object x, ElapsedEventArgs y)
-        {
-            Authenticate();
-        }
+        private void OnTimerOnElapsed(object x, ElapsedEventArgs y) 
+            => Authenticate();
 
         private void Authenticate()
         {

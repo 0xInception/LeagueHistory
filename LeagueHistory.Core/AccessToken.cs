@@ -56,9 +56,6 @@ namespace LeagueHistory.Core
                     case "session_state":
                         session_state = split[1];
                         break;
-                    default:
-                        // TODO: Notify
-                        break;
                 }
             }
         }

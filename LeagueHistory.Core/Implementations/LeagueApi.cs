@@ -36,7 +36,7 @@ namespace LeagueHistory.Core.Implementations
             var requestMessage = new HttpRequestMessage(HttpMethod.Get, ConstructBlueCall(region,$"/summoner-ledge/v1/regions/{region.ToPlatform()}/summoners/name/{username}"));
             requestMessage.Headers.Add("Accept","application/json");
             requestMessage.Headers.Add("User-Agent","RiotClient/18.0.0 (rso-auth)");
-            requestMessage.Headers.Add("Authorization",$"{account.token_type} {account.access_token}"); // TODO: Apparently ledge is not using access_token anymore, but some other jwt token issued from https://session.gpsrv.pvp.net
+            requestMessage.Headers.Add("Authorization",$"{account.token_type} {account.access_token}"); // TODO: Apparently blue is not using access_token anymore, but some other jwt token issued from https://session.gpsrv.pvp.net WILL NEED TO FIGURE THIS OUT!!!
             var response = await ApiClient.SendAsync(requestMessage);
             if (response.IsSuccessStatusCode)
             {
@@ -68,7 +68,7 @@ namespace LeagueHistory.Core.Implementations
             var requestMessage = new HttpRequestMessage(HttpMethod.Get, ConstructBlueCall(region,$"/summoner-ledge/v1/regions/{region.ToPlatform()}/summoners/puuid/{puuid}"));
             requestMessage.Headers.Add("Accept","application/json");
             requestMessage.Headers.Add("User-Agent","RiotClient/18.0.0 (rso-auth)");
-            requestMessage.Headers.Add("Authorization",$"{account.token_type} {account.access_token}"); // TODO: Apparently ledge is not using access_token anymore, but some other jwt token issued from https://session.gpsrv.pvp.net
+            requestMessage.Headers.Add("Authorization",$"{account.token_type} {account.access_token}"); // TODO: Apparently blue is not using access_token anymore, but some other jwt token issued from https://session.gpsrv.pvp.net WILL NEED TO FIGURE THIS OUT!!!
             var response = await ApiClient.SendAsync(requestMessage);
             if (response.IsSuccessStatusCode)
             {
@@ -90,7 +90,7 @@ namespace LeagueHistory.Core.Implementations
             var builder = new StringBuilder();
             builder.Append("https://");
             builder.Append(region);
-            builder.Append(".ledge.leagueoflegends.com"); // TODO: USE BLUE INSTEAD OF LEDGE!!!!
+            builder.Append(".ledge.leagueoflegends.com"); // TODO: USE BLUE INSTEAD OF LEDGE!!!! It's being deprecated.
             builder.Append(call);
             return builder.ToString();
         }

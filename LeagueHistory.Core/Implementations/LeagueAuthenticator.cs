@@ -56,8 +56,7 @@ namespace LeagueHistory.Core.Implementations
             account.AccessToken = new AccessToken(response);
             return Result.Valid;
 
-            string
-                GeneratePart1() // TODO: Maybe extract this - StringBuilder implementation is fine tbh, let's avoid unnecessary serialization.
+            string GeneratePart1() // TODO: Maybe extract this - StringBuilder implementation is fine tbh, let's avoid unnecessary serialization.
             {
                 var stringBuilder = new StringBuilder(byte.MaxValue); // Won't be longer than 0xFF
                 stringBuilder.Append(
@@ -84,7 +83,7 @@ namespace LeagueHistory.Core.Implementations
         }
 
         public async Task<Result>
-            Refresh(LeagueAccount account) // TODO: Find a way of refreshing the token. LOOK /userinfo
+            Refresh(LeagueAccount account) // TODO: Find a way of refreshing the token. LOOK /userinfo (or old way will do for now)
         {
             throw new NotImplementedException();
         }
