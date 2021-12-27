@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using LeagueHistory.Core.Enums;
 using LeagueHistory.Core.JsonObjects;
 
 namespace LeagueHistory.Core.Interfaces

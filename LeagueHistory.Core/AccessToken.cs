@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.Json;
+using LeagueHistory.Core.Enums;
 
 namespace LeagueHistory.Core
 {

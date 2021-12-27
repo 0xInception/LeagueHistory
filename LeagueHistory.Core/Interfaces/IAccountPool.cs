@@ -1,4 +1,6 @@
-﻿namespace LeagueHistory.Core.Interfaces
+﻿using LeagueHistory.Core.Enums;
+
+namespace LeagueHistory.Core.Interfaces
 {
     public interface IAccountPool
     {

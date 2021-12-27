@@ -2,7 +2,7 @@
 using LeagueHistory.Core;
 using LeagueHistory.Core.Implementations;
 using NUnit.Framework;
-
+using LeagueHistory.Core.Enums;
 namespace LeagueHistory.Tests
 {
     public class AuthenticationTest

@@ -1,5 +1,6 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
+using LeagueHistory.Core.Enums;
 
 namespace LeagueHistory.Core.Interfaces
 {

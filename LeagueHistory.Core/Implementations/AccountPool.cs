@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Timers;
+using LeagueHistory.Core.Enums;
 using LeagueHistory.Core.Interfaces;
 
 namespace LeagueHistory.Core.Implementations

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using LeagueHistory.Core;
+using LeagueHistory.Core.Enums;
 using LeagueHistory.Core.Interfaces;
 using LeagueHistory.Core.JsonObjects;
 using Microsoft.AspNetCore.Mvc;

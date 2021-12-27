@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using LeagueHistory.Core.Enums;
 using LeagueHistory.Core.Interfaces;
 
 namespace LeagueHistory.Core.Implementations
@@ -16,7 +17,6 @@ namespace LeagueHistory.Core.Implementations
             AUTH_URL =
                 "https://auth.riotgames.com/api/v1/authorization"; // Let's use the new api in case they deprecate the old one.
 
-        private const string USERINFO = "https://auth.riotgames.com/userinfo";
         public HttpClient AuthenticatorClient { get; set; }
         public IRandomProvider RandomProvider { get; }
         public LeagueAuthenticator(IRandomProvider randomProvider)

@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using LeagueHistory.Core.Enums;
 
 namespace LeagueHistory.Core
 {

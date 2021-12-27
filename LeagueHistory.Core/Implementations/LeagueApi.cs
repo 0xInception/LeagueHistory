@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using LeagueHistory.Core.Enums;
 using LeagueHistory.Core.Interfaces;
 using LeagueHistory.Core.JsonObjects;
 
@@ -21,7 +22,7 @@ namespace LeagueHistory.Core.Implementations
             ApiClient = authenticator
                 .AuthenticatorClient; // Hack to re-use httpclient instance, maybe consider a different way
         }
-
+        
         public async Task<LookupResponse?> Lookup(string username, Region region)
         {
             var account = AccountPool.GetAccount(region);

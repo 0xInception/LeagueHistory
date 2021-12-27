@@ -1,4 +1,4 @@
-﻿namespace LeagueHistory.Core
+﻿namespace LeagueHistory.Core.Enums
 {
     public enum Platform
     {
