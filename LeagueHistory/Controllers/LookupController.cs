@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using LeagueHistory.Core;
 using LeagueHistory.Core.Interfaces;
 using LeagueHistory.Core.JsonObjects;
@@ -21,7 +22,7 @@ namespace LeagueHistory.Controllers
         }
 
         [HttpGet]
-        public IActionResult Lookup([FromQuery(Name = "Region")] string region,
+        public async Task<IActionResult> Lookup([FromQuery(Name = "Region")] string region,
             [FromQuery(Name = "summonerName")] string summonerName, [FromQuery(Name = "puuid")] string puuid)
         {
             if (string.IsNullOrEmpty(region) && string.IsNullOrEmpty(summonerName) && string.IsNullOrEmpty(puuid))
@@ -33,8 +34,8 @@ namespace LeagueHistory.Controllers
             if (!string.IsNullOrEmpty(region) && !string.IsNullOrEmpty(summonerName))
             {
                 // TODO: Make it so it preserves this response?
-                var summoner = leagueApi.Lookup(summonerName, Enum.Parse<Region>(region, true));
-                return Lookup(string.Empty, string.Empty, summoner.puuid);
+                var summoner = await leagueApi.Lookup(summonerName, Enum.Parse<Region>(region, true));
+                return await Lookup(string.Empty, string.Empty, summoner.puuid);
             }
             else if (!string.IsNullOrEmpty(puuid))
             {
@@ -44,11 +45,11 @@ namespace LeagueHistory.Controllers
 
             return View();
 
-            IEnumerable<LookupResponse> GetResponses()
+            async IAsyncEnumerable<LookupResponse> GetResponses()
             {
                 foreach (var r in Enum.GetValues<Region>())
                 {
-                    yield return leagueApi.LookupPuuid(puuid, r);
+                    yield return await leagueApi.LookupPuuid(puuid, r);
                 }
             }
         }

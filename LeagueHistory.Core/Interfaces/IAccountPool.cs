@@ -2,6 +2,6 @@
 {
     public interface IAccountPool
     {
-        void GetAccount(Region region);
+        AccessToken GetAccount(Region region);
     }
 }

@@ -29,6 +29,7 @@ namespace LeagueHistory
             services.AddSingleton<ISettingsProvider, SettingsProvider>();
             services.AddSingleton<ILeagueAuthenticator, LeagueAuthenticator>();
             services.AddSingleton<IAccountPool, AccountPool>();
+            services.AddSingleton<ILeagueApi, LeagueApi>();
             services.AddControllersWithViews();
         }
 

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Timers;
 using LeagueHistory.Core.Interfaces;
 
 namespace LeagueHistory.Core.Implementations
 {
-    
+
 
     public class AccountPool : IAccountPool
     {
@@ -16,7 +17,7 @@ namespace LeagueHistory.Core.Implementations
         public List<LeagueAccount> ActiveAccounts { get; set; } = new();
         public bool FirstRun { get; set; } = true;
 
-        public AccountPool(ILeagueAuthenticator authenticator,ILogger logger,ISettingsProvider settings)
+        public AccountPool(ILeagueAuthenticator authenticator, ILogger logger, ISettingsProvider settings)
         {
             Authenticator = authenticator;
             Logger = logger;
@@ -27,16 +28,17 @@ namespace LeagueHistory.Core.Implementations
             Authenticate();
         }
 
-        public void GetAccount(Region region) // TODO: Figure out how to do the region stuff
+        public AccessToken GetAccount(Region region) // TODO: Figure out how to do the region stuff
         {
-            throw new NotImplementedException();
+            return ActiveAccounts.First(d => d.Credentials.Region == region).AccessToken;
         }
+
         private async void OnTimerOnElapsed(object x, ElapsedEventArgs y)
-        { 
+        {
             Authenticate();
         }
 
-        private async void Authenticate()
+        private void Authenticate()
         {
             if (ActiveAccounts.Count == 0)
             {
@@ -44,11 +46,22 @@ namespace LeagueHistory.Core.Implementations
                 {
                     var split = account.Split(':');
                     var leagueAccount = new LeagueAccount(new LeagueCredentials(split[0], split[1]));
-                    if (await Authenticator.Authenticate(leagueAccount) == Result.Valid)
+                    if (Authenticator.Authenticate(leagueAccount).Result == Result.Valid)
                     {
-                        ActiveAccounts.Add(leagueAccount);
                         Logger.Success(
                             $"Successfully authenticated account [{leagueAccount.Credentials.Username}:{leagueAccount.Credentials.Password}]");
+                        if (Authenticator.ResolveRegion(leagueAccount).Result == Result.Valid)
+                        {
+                            ActiveAccounts.Add(leagueAccount);
+                            Logger.Success(
+                                $"Successfully resolved region on account [{leagueAccount.Credentials.Username}:{leagueAccount.Credentials.Password}]");
+
+                        }
+                        else
+                        {
+                            Logger.Error(
+                                $"Failed to resolve region on account [{leagueAccount.Credentials.Username}:{leagueAccount.Credentials.Password}]");
+                        }
                     }
                     else
                     {
@@ -61,7 +74,7 @@ namespace LeagueHistory.Core.Implementations
             {
                 foreach (var account in ActiveAccounts)
                 {
-                    if (await Authenticator.Authenticate(account) == Result.Valid)
+                    if (Authenticator.Authenticate(account).Result == Result.Valid)
                     {
                         ActiveAccounts.Add(account);
                         Logger.Success(

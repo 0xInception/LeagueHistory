@@ -8,5 +8,6 @@ namespace LeagueHistory.Core.Interfaces
         HttpClient AuthenticatorClient { get; set; }
         Task<Result> Authenticate(LeagueAccount account);
         Task<Result> Refresh(LeagueAccount account);
+        Task<Result> ResolveRegion(LeagueAccount account);
     }
 }

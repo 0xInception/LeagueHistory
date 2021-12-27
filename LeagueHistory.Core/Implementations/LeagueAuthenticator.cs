@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using LeagueHistory.Core.Interfaces;
 
@@ -14,6 +15,7 @@ namespace LeagueHistory.Core.Implementations
             AUTH_URL =
                 "https://auth.riotgames.com/api/v1/authorization"; // Let's use the new api in case they deprecate the old one.
 
+        private const string USERINFO = "https://auth.riotgames.com/userinfo";
         private readonly Random _random;
         public HttpClient AuthenticatorClient { get; set; }
 
@@ -87,6 +89,22 @@ namespace LeagueHistory.Core.Implementations
             Refresh(LeagueAccount account) // TODO: Find a way of refreshing the token. LOOK /userinfo
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<Result> ResolveRegion(LeagueAccount account) // TODO: Decode id_token jwt for ease (completely remove this method)
+        {
+            var requestMessage = new HttpRequestMessage(HttpMethod.Get, USERINFO);
+            requestMessage.Headers.Add("Authorization",$"{account.AccessToken.token_type} {account.AccessToken.access_token}");
+            var result = await AuthenticatorClient.SendAsync(requestMessage);
+            if (!result.IsSuccessStatusCode)
+                return Result.Unknown;
+            var response = await result.Content.ReadAsStringAsync();
+            if (!response.Contains("original_platform_id"))
+                return Result.Unknown;
+            var parsed = JsonDocument.Parse(response);
+            var property = parsed.RootElement.GetProperty("original_platform_id").GetString();
+            account.Credentials.Region = Enum.Parse<Platform>(property).ToRegion();
+            return Result.Valid;
         }
     }
 }
