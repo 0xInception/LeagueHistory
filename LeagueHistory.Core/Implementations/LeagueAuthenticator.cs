@@ -22,7 +22,10 @@ namespace LeagueHistory.Core.Implementations
         public LeagueAuthenticator(IRandomProvider randomProvider)
         {
             RandomProvider = randomProvider;
-            AuthenticatorClient = new HttpClient();
+            AuthenticatorClient = new HttpClient(new HttpClientHandler()
+            {
+                UseCookies = false
+            });
         }
 
         public async Task<Result> Authenticate(LeagueAccount account)

@@ -26,30 +26,71 @@ namespace LeagueHistory.Core.Implementations
         public async Task<LookupResponse?> Lookup(string username, Region region)
         {
             var account = AccountPool.GetAccount(region);
-            var requestMessage = new HttpRequestMessage(HttpMethod.Get, ConstructBlueCall(account.Region,$"/summoner-ledge/v1/regions/{region.ToPlatform()}/summoners/name/{username}"));
+            if (account is null)
+            {
+                return new LookupResponse()
+                {
+                    Valid = false
+                };
+            }
+            var requestMessage = new HttpRequestMessage(HttpMethod.Get, ConstructBlueCall(region,$"/summoner-ledge/v1/regions/{region.ToPlatform()}/summoners/name/{username}"));
+            requestMessage.Headers.Add("Accept","application/json");
+            requestMessage.Headers.Add("User-Agent","RiotClient/18.0.0 (rso-auth)");
             requestMessage.Headers.Add("Authorization",$"{account.token_type} {account.access_token}"); // TODO: Apparently ledge is not using access_token anymore, but some other jwt token issued from https://session.gpsrv.pvp.net
             var response = await ApiClient.SendAsync(requestMessage);
             if (response.IsSuccessStatusCode)
             {
                 var stringResponse = await response.Content.ReadAsStringAsync();
-                return JsonSerializer.Deserialize<LookupResponse>(stringResponse);
+                var resp = JsonSerializer.Deserialize<LookupResponse>(stringResponse);
+                if (resp != null)
+                {
+                    resp.Valid = true;
+                    return resp;
+                }
             }
             return new LookupResponse()
             {
-                Valid = false
+                Valid = true
             };
         }
 
         public async Task<LookupResponse> LookupPuuid(string puuid, Region region)
         {
-            throw new NotImplementedException();
+            var account = AccountPool.GetAccount(region);
+            if (account is null)
+            {
+                return new LookupResponse()
+                {
+                    Valid = false
+                };
+            }
+
+            var requestMessage = new HttpRequestMessage(HttpMethod.Get, ConstructBlueCall(region,$"/summoner-ledge/v1/regions/{region.ToPlatform()}/summoners/puuid/{puuid}"));
+            requestMessage.Headers.Add("Accept","application/json");
+            requestMessage.Headers.Add("User-Agent","RiotClient/18.0.0 (rso-auth)");
+            requestMessage.Headers.Add("Authorization",$"{account.token_type} {account.access_token}"); // TODO: Apparently ledge is not using access_token anymore, but some other jwt token issued from https://session.gpsrv.pvp.net
+            var response = await ApiClient.SendAsync(requestMessage);
+            if (response.IsSuccessStatusCode)
+            {
+                var stringResponse = await response.Content.ReadAsStringAsync();
+                var resp = JsonSerializer.Deserialize<LookupResponse>(stringResponse);
+                if (resp != null)
+                {
+                    resp.Valid = true;
+                    return resp;
+                }
+            }
+            return new LookupResponse()
+            {
+                Valid = true
+            };
         }
         private string ConstructBlueCall(Region region,string call)
         {
             var builder = new StringBuilder();
             builder.Append("https://");
             builder.Append(region);
-            builder.Append("-blue.lol.sgp.pvp.net");
+            builder.Append(".ledge.leagueoflegends.com"); // TODO: USE BLUE INSTEAD OF LEDGE!!!!
             builder.Append(call);
             return builder.ToString();
         }

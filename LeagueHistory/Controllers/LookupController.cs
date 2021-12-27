@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Text.Json;
 using System.Threading.Tasks;
 using LeagueHistory.Core;
 using LeagueHistory.Core.Enums;
@@ -40,18 +41,22 @@ namespace LeagueHistory.Controllers
             }
             else if (!string.IsNullOrEmpty(puuid))
             {
-                var responses = GetResponses();
+                var responses = await GetResponses();
+                return Ok(JsonSerializer.Serialize(responses,new JsonSerializerOptions(JsonSerializerDefaults.Web)));
                 // TODO: Models
             }
 
             return View();
 
-            async IAsyncEnumerable<LookupResponse> GetResponses()
+            async Task<List<LookupResponse>> GetResponses()
             {
+                var ret = new List<LookupResponse>();
                 foreach (var r in Enum.GetValues<Region>())
                 {
-                    yield return await leagueApi.LookupPuuid(puuid, r);
+                    ret.Add(await leagueApi.LookupPuuid(puuid, r));
                 }
+
+                return ret;
             }
         }
     }

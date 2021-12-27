@@ -29,9 +29,10 @@ namespace LeagueHistory.Core.Implementations
             Authenticate();
         }
 
-        public AccessToken GetAccount(Region region) // TODO: Figure out how to do the region stuff
+        public AccessToken? GetAccount(Region region) // TODO: Figure out how to do the region stuff
         {
-            return ActiveAccounts.First(d => d.AccessToken.Region == region).AccessToken;
+            var x = ActiveAccounts.FirstOrDefault(d => d.AccessToken!.Region == region);
+            return x?.AccessToken;
         }
 
         private async void OnTimerOnElapsed(object x, ElapsedEventArgs y)
@@ -49,6 +50,7 @@ namespace LeagueHistory.Core.Implementations
                     var leagueAccount = new LeagueAccount(new LeagueCredentials(split[0], split[1]));
                     if (Authenticator.Authenticate(leagueAccount).Result == Result.Valid)
                     {
+                        ActiveAccounts.Add(leagueAccount);
                         Logger.Success(
                             $"Successfully authenticated account [{leagueAccount.Credentials.Username}:{leagueAccount.Credentials.Password}]");
                     }
