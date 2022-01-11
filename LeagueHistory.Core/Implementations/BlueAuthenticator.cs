@@ -128,19 +128,11 @@ namespace LeagueHistory.Core.Implementations
                 Region.LAN => "usw",
                 Region.LAS => "usw",
                 Region.OCE => "usw",
+                Region.BR => "usw",
+                Region.JP => "apne",
                 _ => "euc"
             });
             builder.Append(".pp.riotgames.com");
-            builder.Append(call);
-            return builder.ToString();
-        }
-
-        private string ConstructBlueCall(Region region, string call)
-        {
-            var builder = new StringBuilder();
-            builder.Append("https://");
-            builder.Append(region);
-            builder.Append("-blue.lol.sgp.pvp.net");
             builder.Append(call);
             return builder.ToString();
         }

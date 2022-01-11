@@ -10,5 +10,7 @@
         LAN,
         LAS,
         RU,
+        BR,
+        JP
     }
 }
