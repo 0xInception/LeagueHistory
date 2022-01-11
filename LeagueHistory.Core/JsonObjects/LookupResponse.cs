@@ -18,6 +18,7 @@
         public long lastGameDate { get; set; }
         public bool nameChangeFlag { get; set; }
         public bool unnamed { get; set; }
+        public string privacy { get; set; }
         public int expToNextLevel { get; set; }
     }
 }

@@ -16,7 +16,7 @@ namespace LeagueHistory.Core
         public string? id_token { get; set; }
         public string? scope { get; set; }
         public Region Region { get; set; }
-
+        public string Puuid { get; set; }
         public AccessToken(string? response)
         {
             var json = JsonDocument.Parse(response!);
@@ -43,9 +43,10 @@ namespace LeagueHistory.Core
                             payload += new string('=', 4 - padding);
                         }
                         var json2 = JsonDocument.Parse(Encoding.UTF8.GetString(Convert.FromBase64String(payload)));
-                        var regionString = json2.RootElement.GetProperty("lol_region").EnumerateArray().First();
-                        var pid = regionString.GetProperty("pid").GetString();
+                        var regionString = json2.RootElement.GetProperty("lol").EnumerateArray().First();
+                        var pid = regionString.GetProperty("cpid").GetString();
                         Region = Enum.Parse<Platform>(pid, true).ToRegion();
+                        Puuid = json2.RootElement.GetProperty("sub").GetString()!;
                         break;
                     case "token_type":
                         token_type = split[1];
