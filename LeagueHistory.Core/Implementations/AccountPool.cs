@@ -73,7 +73,6 @@ namespace LeagueHistory.Core.Implementations
                     {
                         if (BlueAuthenticator.Authenticate(account).Result == Result.Valid)
                         {
-                            ActiveAccounts.Add(account);
                             Logger.Success(
                                 $"Successfully authenticated account [{account.Credentials.Username}:{account.Credentials.Password}]");
                         }
