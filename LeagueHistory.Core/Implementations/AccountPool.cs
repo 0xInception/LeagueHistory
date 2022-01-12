@@ -16,7 +16,7 @@ namespace LeagueHistory.Core.Implementations
             BlueAuthenticator = blueAuthenticator;
             Logger = logger;
             Accounts = settings.ReadSettings()!.Accounts;
-            Timer = new System.Timers.Timer(180000);
+            Timer = new System.Timers.Timer(300000);
             Timer.Elapsed += OnTimerOnElapsed;
             Timer.Start();
             Authenticate();
