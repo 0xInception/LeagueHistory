@@ -1,20 +1,54 @@
-﻿<!DOCTYPE html>
+﻿
 <html lang="en">
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>@ViewData["Title"] - LeagueHistory</title>
-    <link rel="stylesheet" href="~/css/site.css"/>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="icon" href="/favicon.ico?v=2">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.2/tailwind.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/livestamp/1.1.2/livestamp.min.js"></script>
 </head>
-<body>
+<body class="bg-gray-900 flex flex-col min-h-screen ">
+<header class="text-gray-400 bg-gray-900 body-font">
+    <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+        <a href="/" class="flex title-font font-medium items-center text-white mb-4 md:mb-0">
+            <img src="~/Logo.png" width="28%">
 
-<div class="container">
-    <main role="main" class="pb-3">
+        </a>
+
+        <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
+            <a href="/" class="mr-5 hover:text-white">Home</a>
+            <a href="https://github.com/0xInception/LeagueHistory" class="mr-5 hover:text-white">Source Code</a>
+            <a href="https://www.buymeacoffee.com/inceptiondev" class="mr-5 hover:text-white">Donations</a>
+            <a href="#" class="mr-5 hover:text-white">FAQ</a>
+
+        </nav>
+
+    </div>
+</header>
+<section class="text-gray-400 bg-gray-900 body-font flex-grow">
+    <div class="container px-5 py-10 mx-auto">
         @RenderBody()
-    </main>
-</div>
+    </div>
+</section>
+<footer class="text-gray-400 bg-gray-900 body-font mb-5">
+    <div class="container px-5 pt-14  mx-auto flex items-center sm:flex-row flex-col">
 
-<script src="~/js/site.js" asp-append-version="true"></script>
-@await RenderSectionAsync("Scripts", required: false)
+        <p class="text-sm text-gray-400 sm:ml-4 sm:pl-4 sm:border-gray-800 sm:py-2 sm:mt-0 mt-4">© 2022 LeagueHistory —
+            <a href="https://github.com/0xInception" class="text-gray-500 ml-1" target="_blank" rel="noopener noreferrer">@@0xInception</a>
+        </p>
+        <span class="inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start">
+
+      <a href="https://twitter.com/dev_inception" class="ml-3 text-gray-400">
+        <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+          <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>
+        </svg>
+      </a>
+
+    </span>
+    </div>
+</footer>
+
 </body>
 </html>

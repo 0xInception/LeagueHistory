@@ -61,7 +61,8 @@ namespace LeagueHistory.Core.Implementations
             {
                 return new LookupResponse()
                 {
-                    Valid = false
+                    Valid = false,
+                    Region = region.ToString()
                 };
             }
 
@@ -83,7 +84,8 @@ namespace LeagueHistory.Core.Implementations
             }
             return new LookupResponse()
             {
-                Valid = true
+                Valid = true,
+                Region = region.ToString()
             };
         }
         private string ConstructBlueCall(Region region,string call)

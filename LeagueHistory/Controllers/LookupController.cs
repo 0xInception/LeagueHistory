@@ -7,6 +7,7 @@ using LeagueHistory.Core;
 using LeagueHistory.Core.Enums;
 using LeagueHistory.Core.Interfaces;
 using LeagueHistory.Core.JsonObjects;
+using LeagueHistory.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -27,7 +28,7 @@ namespace LeagueHistory.Controllers
         public async Task<IActionResult> Lookup([FromQuery(Name = "Region")] string region,
             [FromQuery(Name = "summonerName")] string summonerName, [FromQuery(Name = "puuid")] string puuid)
         {
-            if (string.IsNullOrEmpty(region) && string.IsNullOrEmpty(summonerName) && string.IsNullOrEmpty(puuid))
+            if (string.IsNullOrEmpty(summonerName) && string.IsNullOrEmpty(puuid))
             {
                 return BadRequest("F");
             }
@@ -37,12 +38,23 @@ namespace LeagueHistory.Controllers
             {
                 // TODO: Make it so it preserves this response?
                 var summoner = await leagueApi.Lookup(summonerName, Enum.Parse<Region>(region, true));
-                return await Lookup(string.Empty, string.Empty, summoner.puuid);
+                if (summoner is {Valid: true})
+                {
+                    return Redirect("/Lookup?puuid=" + summoner.puuid);
+                }
+                else
+                {
+                    return BadRequest("Bad request.");
+                }
             }
+
             else if (!string.IsNullOrEmpty(puuid))
             {
-                var responses = await GetResponses();
-                return Ok(JsonSerializer.Serialize(responses,new JsonSerializerOptions(JsonSerializerDefaults.Web)));
+                return View(new LookupViewModel()
+                {
+                    Responses = await GetResponses()
+                });
+                //return Ok(JsonSerializer.Serialize(responses,new JsonSerializerOptions(JsonSerializerDefaults.Web)));
                 // TODO: Models
             }
 

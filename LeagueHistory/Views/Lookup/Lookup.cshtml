@@ -5,6 +5,57 @@
     Layout = "_Layout";
 }
 
-<h2>title</h2>
 
-<!-- TODO: Design -->
+@{
+    var best = Model.Responses.OrderByDescending(d => d.revisionDate).First();
+}
+<script>
+    function setClipboard()
+    {
+         navigator.clipboard.writeText('@best.puuid');
+    }
+</script>
+<div class="flex flex-wrap -m-5">
+    @{
+        foreach (var resp in Model.Responses.Where(d => d.puuid != null))
+        {
+            <div class="p-4 lg:w-1/5">
+                <div class="h-full flex flex-col bg-gray-800 bg-opacity-40 px-8 pt-6 pb-3 rounded-lg overflow-hidden text-center relative border-@(resp.Region == best.Region ? "green" : "red")-500 rounded-lg border-2 justify-between items-center">
+                    <div>
+                        <img src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/profile-icons/@(resp.profileIconId).jpg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="text-indigo-500 w-24 h-24 inline-block rounded-full" viewBox="0 0 24 24">
+                        <h2 class="title-font font-medium text-2xl text-yellow-300">@(resp.level)</h2>
+                    </div>
+                    <h1 class="title-font sm:text-2xl text-2xl font-medium text-white mb-3">@resp.name</h1>
+                                    <div>
+                                        <h1 class="title-font sm:text-2xl text-xl font-medium text-white">@(resp.Region)</h1>
+                                        <h2 class="title-font font-medium text-1xl text-white-300">Last Played <span data-livestamp="@(resp.lastGameDate.ToString()[0..^3])"></span></h2>
+                                    </div>
+                </div>
+                
+            </div>
+        }
+    }
+    @{
+            foreach (var resp in Model.Responses.Where(d => d.puuid == null))
+            {
+                <div class="p-4 lg:w-1/5">
+                    <div class="h-full flex flex-col bg-gray-800 bg-opacity-40 px-8 pt-6 pb-3 rounded-lg overflow-hidden text-center relative border-indigo-500 rounded-lg border-2 justify-between items-center">
+                        <div>
+                            <img src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/profile-icons/29.jpg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="text-indigo-500 w-24 h-24 inline-block rounded-full" viewBox="0 0 24 24">
+                            <h2 class="title-font font-medium text-2xl text-yellow-300">.</h2>
+                        </div>
+                        <h1 class="title-font sm:text-2xl text-2xl font-medium text-white mb-3"></h1>
+                                            <div>
+                                                <h1 class="title-font sm:text-2xl text-xl font-medium text-white">@(resp.Region)</h1>
+                                                <h2 class="title-font font-medium text-1xl text-white-300">.</h2>
+                                            </div>
+                    </div>
+                    
+                </div>
+            }
+        }
+    
+</div>
+        <div class="flex flex-wrap w-full mt-10 flex-col items-center text-center">
+            <button onclick="setClipboard()" class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Click to copy puuid</button>
+        </div>
