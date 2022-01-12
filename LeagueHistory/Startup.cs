@@ -26,7 +26,7 @@ namespace LeagueHistory
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IRandomProvider, RandomProvider>();
-            services.AddSingleton<ILogger, ConsoleLogger>();
+            services.AddSingleton<ILogger, FileLogger>();
             services.AddSingleton<ISettingsProvider, SettingsProvider>();
             services.AddSingleton<ILeagueAuthenticator, LeagueAuthenticator>();
             services.AddSingleton<IBlueAuthenticator, BlueAuthenticator>();

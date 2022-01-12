@@ -9,17 +9,19 @@ namespace LeagueHistory.Core.Implementations
 {
     public class AccountPool : IAccountPool
     {
-        public AccountPool(ILeagueAuthenticator authenticator,IBlueAuthenticator blueAuthenticator, ILogger logger, ISettingsProvider settings)
+        public AccountPool(ILeagueAuthenticator authenticator, IBlueAuthenticator blueAuthenticator, ILogger logger,
+            ISettingsProvider settings)
         {
             Authenticator = authenticator;
             BlueAuthenticator = blueAuthenticator;
             Logger = logger;
             Accounts = settings.ReadSettings()!.Accounts;
-            Timer = new System.Timers.Timer(1800000);
+            Timer = new System.Timers.Timer(180000);
             Timer.Elapsed += OnTimerOnElapsed;
             Timer.Start();
             Authenticate();
         }
+
         public System.Timers.Timer Timer { get; set; }
         public ILeagueAuthenticator Authenticator { get; }
         public IBlueAuthenticator BlueAuthenticator { get; }
@@ -33,7 +35,7 @@ namespace LeagueHistory.Core.Implementations
             return x?.BlueToken;
         }
 
-        private void OnTimerOnElapsed(object x, ElapsedEventArgs y) 
+        private void OnTimerOnElapsed(object x, ElapsedEventArgs y)
             => Authenticate();
 
         private void Authenticate()
@@ -74,18 +76,13 @@ namespace LeagueHistory.Core.Implementations
                         if (BlueAuthenticator.Authenticate(account).Result == Result.Valid)
                         {
                             Logger.Success(
-                                $"Successfully authenticated account [{account.Credentials.Username}:{account.Credentials.Password}]");
+                                $"Successfully re-authenticated account [{account.Credentials.Username}:{account.Credentials.Password}]");
                         }
                         else
                         {
                             Logger.Error(
-                                $"Failed to blue authenticate account [{account.Credentials.Username}:{account.Credentials.Password}]");
+                                $"Failed to re-authenticate account [{account.Credentials.Username}:{account.Credentials.Password}]");
                         }
-                    }
-                    else
-                    {
-                        Logger.Error(
-                            $"Failed to authenticate account [{account.Credentials.Username}:{account.Credentials.Password}]");
                     }
                 }
             }
