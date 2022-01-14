@@ -1,4 +1,4 @@
-# LeagueHistory [UNDER RE-CONSTRUCTION]
+# LeagueHistory
 [LeagueHistory](https://history.inceptiondev.me/) is a website dedicated to getting useful information about league of legends players. What makes it so unique is being able to track players across regions and name changes. It uses the underlying league client API so we do not have to worry about API keys. 
 
 ## How can i host it?
