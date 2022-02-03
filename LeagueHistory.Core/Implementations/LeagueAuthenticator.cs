@@ -57,6 +57,8 @@ namespace LeagueHistory.Core.Implementations
 
         private async Task<(Result result, string cookies)> FetchCookies()
         {
+            var req = new HttpRequestMessage(HttpMethod.Post, AUTH_URL);
+            req.Headers.Add("user-agent","RiotClient");
             var stringBuilder = new StringBuilder(byte.MaxValue); // Won't be longer than 0xFF
             stringBuilder.Append(
                 "{\"acr_values\": \"\",\"claims\": \"\",\"client_id\": \"lol\",\"nonce\":\"");
@@ -64,8 +66,8 @@ namespace LeagueHistory.Core.Implementations
             stringBuilder.Append(
                 "\",\"code_challenge\": \"\",\"code_challenge_method\": \"\",\"redirect_uri\": \"http://localhost/redirect\",\"response_type\": \"token id_token\",\"scope\": \"openid link ban lol_region\"}");
             
-            var part1 = await AuthenticatorClient.PostAsync(AUTH_URL,
-                new StringContent(stringBuilder.ToString(), Encoding.UTF8, "application/json"));
+            req.Content = new StringContent(stringBuilder.ToString(), Encoding.UTF8, "application/json");
+            var part1 = await AuthenticatorClient.SendAsync(req);
             if (!part1.IsSuccessStatusCode)
                 return (Result.Unknown,string.Empty);
 
@@ -81,6 +83,7 @@ namespace LeagueHistory.Core.Implementations
         {
             var request = new HttpRequestMessage(HttpMethod.Put, AUTH_URL);
             request.Headers.Add("Cookie", cookies);
+            request.Headers.Add("user-agent","RiotClient");
             var stringBuilder = new StringBuilder(byte.MaxValue);
             stringBuilder.Append(
                 "{\"language\": \"en_GB\",\"password\": \"");
